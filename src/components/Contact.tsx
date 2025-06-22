@@ -7,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { MessageCircle, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Contact = () => {
   const [contactForm, setContactForm] = useState({
@@ -16,6 +17,7 @@ const Contact = () => {
     subject: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const handleInputChange = (field: string, value: string) => {
@@ -34,24 +36,51 @@ const Contact = () => {
       return;
     }
 
-    console.log('Contact form data:', contactForm);
-    
-    // For now, show success message. Later this will integrate with Supabase
-    toast({
-      title: "Message Sent Successfully",
-      description: "Thank you for your message. We will get back to you soon.",
-    });
+    setIsSubmitting(true);
 
-    // Reset form
-    setContactForm({
-      name: '',
-      email: '',
-      phone: '',
-      subject: '',
-      message: ''
-    });
+    try {
+      console.log('Submitting contact message:', contactForm);
+      
+      const { data, error } = await supabase.functions.invoke('submit-contact', {
+        body: contactForm
+      });
 
-    // TODO: Once Supabase is connected, save to database
+      if (error) {
+        console.error('Error submitting contact message:', error);
+        toast({
+          title: "Message submission failed",
+          description: "Please try again later.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log('Contact response:', data);
+
+      toast({
+        title: "Message Sent Successfully",
+        description: data.message || "Thank you for your message. We will get back to you soon.",
+      });
+
+      // Reset form
+      setContactForm({
+        name: '',
+        email: '',
+        phone: '',
+        subject: '',
+        message: ''
+      });
+
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -163,6 +192,7 @@ const Contact = () => {
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Enter your full name"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
@@ -174,6 +204,7 @@ const Contact = () => {
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="Enter your email"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -187,6 +218,7 @@ const Contact = () => {
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                       placeholder="Enter your phone number"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
@@ -197,6 +229,7 @@ const Contact = () => {
                       onChange={(e) => handleInputChange('subject', e.target.value)}
                       placeholder="Subject of your message"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -210,6 +243,7 @@ const Contact = () => {
                     placeholder="Write your message, question, or query here..."
                     className="mt-1"
                     rows={5}
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -217,13 +251,14 @@ const Contact = () => {
                   onClick={handleSubmit}
                   className="w-full bg-blue-600 hover:bg-blue-700 text-white py-3 text-lg font-semibold"
                   size="lg"
+                  disabled={isSubmitting}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  Send Message
+                  {isSubmitting ? 'Sending...' : 'Send Message'}
                 </Button>
 
                 <p className="text-sm text-gray-600 text-center">
-                  We typically respond within 24 hours during business days
+                  Your message will be saved and we'll respond within 24 hours
                 </p>
               </CardContent>
             </Card>

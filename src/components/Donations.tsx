@@ -8,6 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import { Textarea } from '@/components/ui/textarea';
 import { Heart, Building, BookOpen, Stethoscope, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { supabase } from '@/integrations/supabase/client';
 
 const Donations = () => {
   const [donationForm, setDonationForm] = useState({
@@ -18,6 +19,7 @@ const Donations = () => {
     category: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const { toast } = useToast();
 
   const donationCategories = [
@@ -67,16 +69,52 @@ const Donations = () => {
       return;
     }
 
-    console.log('Donation data:', donationForm);
-    
-    // For now, show success message. Later this will integrate with Supabase and Razorpay
-    toast({
-      title: "Donation Request Received",
-      description: "Thank you for your generous donation. You will be redirected to payment gateway shortly.",
-    });
+    setIsSubmitting(true);
 
-    // TODO: Once Supabase is connected, save to database and integrate Razorpay
-    // This would call an edge function to process the payment
+    try {
+      console.log('Submitting donation:', donationForm);
+      
+      const { data, error } = await supabase.functions.invoke('process-donation', {
+        body: donationForm
+      });
+
+      if (error) {
+        console.error('Error submitting donation:', error);
+        toast({
+          title: "Donation submission failed",
+          description: "Please try again later.",
+          variant: "destructive"
+        });
+        return;
+      }
+
+      console.log('Donation response:', data);
+
+      toast({
+        title: "Donation Request Received",
+        description: data.message || "Thank you for your generous donation!",
+      });
+
+      // Reset form
+      setDonationForm({
+        name: '',
+        email: '',
+        phone: '',
+        amount: '',
+        category: '',
+        message: ''
+      });
+
+    } catch (error) {
+      console.error('Unexpected error:', error);
+      toast({
+        title: "Something went wrong",
+        description: "Please try again later.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -149,6 +187,7 @@ const Donations = () => {
                       onChange={(e) => handleInputChange('name', e.target.value)}
                       placeholder="Enter your full name"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
@@ -160,6 +199,7 @@ const Donations = () => {
                       onChange={(e) => handleInputChange('email', e.target.value)}
                       placeholder="Enter your email"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
@@ -173,6 +213,7 @@ const Donations = () => {
                       onChange={(e) => handleInputChange('phone', e.target.value)}
                       placeholder="Enter your phone number"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                   <div>
@@ -184,13 +225,18 @@ const Donations = () => {
                       onChange={(e) => handleInputChange('amount', e.target.value)}
                       placeholder="Enter amount in rupees"
                       className="mt-1"
+                      disabled={isSubmitting}
                     />
                   </div>
                 </div>
 
                 <div>
                   <Label htmlFor="category">Donation Category *</Label>
-                  <Select value={donationForm.category} onValueChange={(value) => handleInputChange('category', value)}>
+                  <Select 
+                    value={donationForm.category} 
+                    onValueChange={(value) => handleInputChange('category', value)}
+                    disabled={isSubmitting}
+                  >
                     <SelectTrigger className="mt-1">
                       <SelectValue placeholder="Select donation category" />
                     </SelectTrigger>
@@ -213,6 +259,7 @@ const Donations = () => {
                     placeholder="Share your thoughts or prayers..."
                     className="mt-1"
                     rows={3}
+                    disabled={isSubmitting}
                   />
                 </div>
 
@@ -220,13 +267,14 @@ const Donations = () => {
                   onClick={handleDonation}
                   className="w-full bg-orange-600 hover:bg-orange-700 text-white py-3 text-lg font-semibold"
                   size="lg"
+                  disabled={isSubmitting}
                 >
                   <Heart className="mr-2 h-5 w-5" />
-                  Proceed to Payment
+                  {isSubmitting ? 'Processing...' : 'Submit Donation Request'}
                 </Button>
 
                 <p className="text-sm text-gray-600 text-center">
-                  Your donation is secure and will be processed through Razorpay
+                  Your donation request will be saved and you'll be contacted for payment details
                 </p>
               </CardContent>
             </Card>
