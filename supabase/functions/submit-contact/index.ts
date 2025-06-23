@@ -62,6 +62,22 @@ serve(async (req) => {
 
     console.log('Contact message saved successfully:', contactMessage.id);
 
+    // Send Gmail notification (non-blocking)
+    try {
+      const gmailResponse = await supabase.functions.invoke('send-gmail-notification', {
+        body: { name, email, phone, subject, message }
+      });
+      
+      if (gmailResponse.error) {
+        console.error('Gmail notification failed:', gmailResponse.error);
+      } else {
+        console.log('Gmail notification sent successfully');
+      }
+    } catch (gmailError) {
+      console.error('Gmail notification error:', gmailError);
+      // Don't fail the main request if Gmail fails
+    }
+
     return new Response(
       JSON.stringify({ 
         success: true, 

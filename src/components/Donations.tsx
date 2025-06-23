@@ -9,6 +9,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Heart, Building, BookOpen, Stethoscope, Users } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import QRDonation from './QRDonation';
 
 const Donations = () => {
   const [donationForm, setDonationForm] = useState({
@@ -128,6 +129,11 @@ const Donations = () => {
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
             Your generous donations help us serve the community and maintain this sacred space for future generations
           </p>
+        </div>
+
+        {/* QR Code Donation Section */}
+        <div className="mb-12">
+          <QRDonation />
         </div>
 
         <div className="grid lg:grid-cols-2 gap-12">

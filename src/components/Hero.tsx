@@ -36,33 +36,39 @@ const Hero = () => {
           </p>
         </div>
         
-        <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+        {/* Enhanced Action Buttons */}
+        <div className="flex flex-col items-center space-y-6 mb-8">
+          {/* Primary Donate Button - Most Prominent */}
           <Button 
             size="lg" 
-            className="bg-orange-600 hover:bg-orange-700 text-white px-8 py-3 text-lg font-semibold shadow-2xl"
+            className="bg-gradient-to-r from-orange-600 to-red-600 hover:from-orange-700 hover:to-red-700 text-white px-12 py-4 text-xl font-bold shadow-2xl transform hover:scale-105 transition-all duration-300 border-2 border-orange-300"
             onClick={() => scrollToSection('donations')}
           >
-            <Heart className="mr-2 h-5 w-5" />
-            Donate Now
+            <Heart className="mr-3 h-6 w-6" />
+            DONATE NOW
           </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-2 border-white text-white hover:bg-white hover:text-orange-600 px-8 py-3 text-lg font-semibold shadow-2xl"
-            onClick={() => scrollToSection('about')}
-          >
-            <Scroll className="mr-2 h-5 w-5" />
-            Learn More
-          </Button>
-          <Button 
-            size="lg" 
-            variant="outline" 
-            className="border-2 border-white text-white hover:bg-white hover:text-orange-600 px-8 py-3 text-lg font-semibold shadow-2xl"
-            onClick={() => scrollToSection('contact')}
-          >
-            <MessageCircle className="mr-2 h-5 w-5" />
-            Send Message
-          </Button>
+          
+          {/* Secondary Action Buttons */}
+          <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-2 border-white text-white hover:bg-white hover:text-orange-600 px-8 py-3 text-lg font-semibold shadow-2xl transition-all duration-300"
+              onClick={() => scrollToSection('contact')}
+            >
+              <MessageCircle className="mr-2 h-5 w-5" />
+              Send Message
+            </Button>
+            <Button 
+              size="lg" 
+              variant="outline" 
+              className="border-2 border-white text-white hover:bg-white hover:text-orange-600 px-8 py-3 text-lg font-semibold shadow-2xl transition-all duration-300"
+              onClick={() => scrollToSection('about')}
+            >
+              <Scroll className="mr-2 h-5 w-5" />
+              Learn More
+            </Button>
+          </div>
         </div>
       </div>
       
