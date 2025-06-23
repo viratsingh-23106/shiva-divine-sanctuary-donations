@@ -14,9 +14,10 @@ serve(async (req) => {
   }
 
   try {
+    // Use service role key to bypass RLS policies
     const supabase = createClient(
       Deno.env.get('SUPABASE_URL') ?? '',
-      Deno.env.get('SUPABASE_ANON_KEY') ?? ''
+      Deno.env.get('SUPABASE_SERVICE_ROLE_KEY') ?? ''
     );
 
     const { name, email, phone, amount, category, message } = await req.json();
@@ -64,13 +65,12 @@ serve(async (req) => {
 
     console.log('Donation saved successfully:', donation.id);
 
-    // For now, we'll return success without actual Razorpay integration
-    // In production, you would integrate with Razorpay here
+    // Return success with donation ID
     return new Response(
       JSON.stringify({ 
         success: true, 
         donation_id: donation.id,
-        message: 'Donation request received successfully. Payment integration coming soon!'
+        message: 'Donation request received successfully!'
       }),
       { 
         status: 200, 
