@@ -6,7 +6,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Textarea } from '@/components/ui/textarea';
-import { Heart, Building, BookOpen, Stethoscope, Users } from 'lucide-react';
+import { Heart, Building, BookOpen, Stethoscope, Users, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
 import QRDonation from './QRDonation';
@@ -21,6 +21,8 @@ const Donations = () => {
     message: ''
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [showQRCode, setShowQRCode] = useState(false);
+  const [submittedDonationId, setSubmittedDonationId] = useState(null);
   const { toast } = useToast();
 
   const donationCategories = [
@@ -92,19 +94,13 @@ const Donations = () => {
       console.log('Donation response:', data);
 
       toast({
-        title: "Donation Request Received",
-        description: data.message || "Thank you for your generous donation!",
+        title: "Donation Request Submitted Successfully!",
+        description: "Please proceed with the payment using the QR code below.",
       });
 
-      // Reset form
-      setDonationForm({
-        name: '',
-        email: '',
-        phone: '',
-        amount: '',
-        category: '',
-        message: ''
-      });
+      // Show QR code and store donation ID
+      setSubmittedDonationId(data.donation_id);
+      setShowQRCode(true);
 
     } catch (error) {
       console.error('Unexpected error:', error);
@@ -117,6 +113,61 @@ const Donations = () => {
       setIsSubmitting(false);
     }
   };
+
+  const handleBackToForm = () => {
+    setShowQRCode(false);
+    setSubmittedDonationId(null);
+    // Reset form
+    setDonationForm({
+      name: '',
+      email: '',
+      phone: '',
+      amount: '',
+      category: '',
+      message: ''
+    });
+  };
+
+  if (showQRCode) {
+    return (
+      <section id="donations" className="py-20 px-4 bg-gradient-to-b from-orange-50 to-yellow-50">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-8">
+            <h2 className="text-4xl md:text-5xl font-bold text-orange-800 mb-4">
+              Complete Your Donation
+            </h2>
+            <div className="w-24 h-1 bg-orange-600 mx-auto mb-6"></div>
+            <p className="text-xl text-gray-700">
+              Your donation request has been saved. Please complete the payment using the QR code below.
+            </p>
+          </div>
+
+          <div className="mb-8">
+            <QRDonation />
+          </div>
+
+          <div className="text-center">
+            <Button
+              onClick={handleBackToForm}
+              variant="outline"
+              className="border-orange-300 text-orange-700 hover:bg-orange-100"
+            >
+              <ArrowLeft className="mr-2 h-4 w-4" />
+              Make Another Donation
+            </Button>
+          </div>
+
+          <div className="mt-8 p-4 bg-green-100 rounded-lg border border-green-200">
+            <p className="text-center text-green-800">
+              <strong>Thank you for your generous donation!</strong><br />
+              Donation ID: {submittedDonationId}<br />
+              After completing the payment, please keep the transaction reference for your records.
+            </p>
+          </div>
+        </div>
+      </section>
+    );
+  }
 
   return (
     <section id="donations" className="py-20 px-4 bg-gradient-to-b from-orange-50 to-yellow-50">
@@ -280,7 +331,7 @@ const Donations = () => {
                 </Button>
 
                 <p className="text-sm text-gray-600 text-center">
-                  Your donation request will be saved and you'll be contacted for payment details
+                  After submitting, you'll see the QR code to complete your payment
                 </p>
               </CardContent>
             </Card>
