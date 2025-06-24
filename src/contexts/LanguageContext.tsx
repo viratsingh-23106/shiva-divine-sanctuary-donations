@@ -1,4 +1,3 @@
-
 import React, { createContext, useContext, useState, useEffect } from 'react';
 
 type Language = 'en' | 'hi';
@@ -45,8 +44,6 @@ const translations = {
     "about_worship_desc": "Regular prayers, aarti, and special ceremonies conducted by learned priests following ancient traditions",
     "about_service": "Community Service",
     "about_service_desc": "Dedicated to serving society through food distribution, education, and healthcare initiatives",
-
-    // Shiva Powers Section
     "powers_title": "The Divine Powers of Lord Shiva",
     "powers_description": "Explore the magnificent aspects of Mahadev - the supreme consciousness who governs the universe",
     "power_nataraja": "Nataraja - The Cosmic Dancer",
@@ -66,8 +63,6 @@ const translations = {
     "maha_mantra_desc": "The five-syllable mantra that connects us to divine consciousness",
     "mrityunjaya_mantra": "Mrityunjaya Mantra",
     "mrityunjaya_desc": "The great mantra for overcoming death and achieving immortality",
-
-    // Donations Section
     "donations_title": "Support Our Sacred Mission",
     "donations_description": "Your generous donations help us serve the community and maintain this sacred space for future generations",
     "donation_categories": "Choose Your Seva (Service)",
@@ -94,8 +89,6 @@ const translations = {
     "make_another": "Make Another Donation",
     "thank_you_donation": "Thank you for your generous donation!",
     "transaction_note": "After completing the payment, please keep the transaction reference for your records.",
-
-    // Contact Section
     "contact_title": "Connect With Us",
     "contact_description": "Have questions, need guidance, or want to know more about our temple activities? We're here to help.",
     "temple_info": "Temple Information",
@@ -115,8 +108,6 @@ const translations = {
     "contact_message_placeholder": "Write your message, question, or query here...",
     "sending": "Sending...",
     "contact_form_note": "Your message will be saved and we'll respond within 24 hours",
-
-    // Footer
     "footer_blessing": "May Lord Shiva's blessings always be upon you",
     "quick_links": "Quick Links",
     "about_temple": "About Temple",
@@ -126,8 +117,6 @@ const translations = {
     "footer_timings": "Temple Timings",
     "footer_schedule": "Morning: 5:00 AM - 12:00 PM\nEvening: 4:00 PM - 9:00 PM\nSpecial prayers on Mondays",
     "copyright": "© 2024 Shiva Temple. All rights reserved. 🙏",
-
-    // Admin Panel
     "admin_title": "Admin Panel - Contact Messages",
     "admin_description": "All contact messages from website visitors",
     "total_messages": "total",
@@ -140,8 +129,6 @@ const translations = {
     "not_provided": "Not provided",
     "no_subject": "No subject",
     "loading_messages": "Loading messages...",
-
-    // Common
     "required": "*",
     "select_placeholder": "Select...",
     "enter_name": "Enter your full name",
@@ -177,8 +164,6 @@ const translations = {
     "about_worship_desc": "प्राचीन परंपराओं का पालन करते हुए विद्वान पुजारियों द्वारा आयोजित नियमित प्रार्थनाएं, आरती और विशेष समारोह",
     "about_service": "सामुदायिक सेवा",
     "about_service_desc": "भोजन वितरण, शिक्षा और स्वास्थ्य सेवा पहलों के माध्यम से समाज की सेवा के लिए समर्पित",
-
-    // Shiva Powers Section
     "powers_title": "भगवान शिव की दिव्य शक्तियां",
     "powers_description": "महादेव के भव्य रूपों का अन्वेषण करें - वह परम चेतना जो ब्रह्मांड का संचालन करती है",
     "power_nataraja": "नटराज - ब्रह्मांडीय नर्तक",
@@ -198,8 +183,6 @@ const translations = {
     "maha_mantra_desc": "पांच अक्षरों का मंत्र जो हमें दिव्य चेतना से जोड़ता है",
     "mrityunjaya_mantra": "मृत्युंजय मंत्र",
     "mrityunjaya_desc": "मृत्यु पर विजय पाने और अमरता प्राप्त करने का महान मंत्र",
-
-    // Donations Section
     "donations_title": "हमारे पवित्र मिशन का समर्थन करें",
     "donations_description": "आपके उदार दान हमें समुदाय की सेवा करने और आने वाली पीढ़ियों के लिए इस पवित्र स्थान को बनाए रखने में मदद करते हैं",
     "donation_categories": "अपनी सेवा चुनें",
@@ -226,8 +209,6 @@ const translations = {
     "make_another": "एक और दान करें",
     "thank_you_donation": "आपके उदार दान के लिए धन्यवाद!",
     "transaction_note": "भुगतान पूरा करने के बाद, कृपया अपने रिकॉर्ड के लिए लेनदेन संदर्भ रखें।",
-
-    // Contact Section
     "contact_title": "हमसे जुड़ें",
     "contact_description": "क्या आपके पास प्रश्न हैं, मार्गदर्शन चाहिए, या हमारी मंदिर गतिविधियों के बारे में और जानना चाहते हैं? हम यहाँ आपकी मदद के लिए हैं।",
     "temple_info": "मंदिर की जानकारी",
@@ -247,8 +228,6 @@ const translations = {
     "contact_message_placeholder": "यहाँ अपना संदेश, प्रश्न या पूछताछ लिखें...",
     "sending": "भेजा जा रहा है...",
     "contact_form_note": "आपका संदेश सहेजा जाएगा और हम 24 घंटों के भीतर जवाब देंगे",
-
-    // Footer
     "footer_blessing": "भगवान शिव का आशीर्वाद सदा आप पर बना रहे",
     "quick_links": "त्वरित लिंक",
     "about_temple": "मंदिर के बारे में",
@@ -258,8 +237,6 @@ const translations = {
     "footer_timings": "मंदिर का समय",
     "footer_schedule": "सुबह: सुबह 5:00 बजे - दोपहर 12:00 बजे\nशाम: शाम 4:00 बजे - रात 9:00 बजे\nसोमवार को विशेष प्रार्थना",
     "copyright": "© 2024 शिव मंदिर। सभी अधिकार सुरक्षित। 🙏",
-
-    // Admin Panel
     "admin_title": "एडमिन पैनल - संपर्क संदेश",
     "admin_description": "वेबसाइट आगंतुकों के सभी संपर्क संदेश",
     "total_messages": "कुल",
@@ -272,8 +249,6 @@ const translations = {
     "not_provided": "प्रदान नहीं किया गया",
     "no_subject": "कोई विषय नहीं",
     "loading_messages": "संदेश लोड हो रहे हैं...",
-
-    // Common
     "required": "*",
     "select_placeholder": "चुनें...",
     "enter_name": "अपना पूरा नाम दर्ज करें",
