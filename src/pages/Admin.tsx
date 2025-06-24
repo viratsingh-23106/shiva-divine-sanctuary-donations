@@ -7,6 +7,8 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Eye, EyeOff, Mail, Phone, Calendar } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from '@/components/LanguageToggle';
 
 interface ContactMessage {
   id: string;
@@ -19,6 +21,7 @@ interface ContactMessage {
 }
 
 const Admin = () => {
+  const { t } = useLanguage();
   const [messages, setMessages] = useState<ContactMessage[]>([]);
   const [loading, setLoading] = useState(true);
   const [expandedMessage, setExpandedMessage] = useState<string | null>(null);
@@ -74,8 +77,9 @@ const Admin = () => {
   if (loading) {
     return (
       <div className="container mx-auto px-4 py-8">
+        <LanguageToggle />
         <div className="flex justify-center items-center min-h-[400px]">
-          <div className="text-lg">Loading messages...</div>
+          <div className="text-lg">{t('loading_messages')}</div>
         </div>
       </div>
     );
@@ -83,32 +87,33 @@ const Admin = () => {
 
   return (
     <div className="container mx-auto px-4 py-8">
+      <LanguageToggle />
       <Card>
         <CardHeader>
           <CardTitle className="flex items-center gap-2">
             <Mail className="w-6 h-6" />
-            Admin Panel - Contact Messages
+            {t('admin_title')}
           </CardTitle>
           <CardDescription>
-            All contact messages from website visitors ({messages.length} total)
+            {t('admin_description')} ({messages.length} {t('total_messages')})
           </CardDescription>
         </CardHeader>
         <CardContent>
           {messages.length === 0 ? (
             <div className="text-center py-8 text-gray-500">
-              No contact messages found.
+              {t('no_messages')}
             </div>
           ) : (
             <div className="rounded-md border">
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Name</TableHead>
-                    <TableHead>Email</TableHead>
-                    <TableHead>Phone</TableHead>
-                    <TableHead>Subject</TableHead>
-                    <TableHead>Date</TableHead>
-                    <TableHead>Actions</TableHead>
+                    <TableHead>{t('name')}</TableHead>
+                    <TableHead>{t('email')}</TableHead>
+                    <TableHead>{t('phone')}</TableHead>
+                    <TableHead>{t('subject')}</TableHead>
+                    <TableHead>{t('date')}</TableHead>
+                    <TableHead>{t('actions')}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -129,14 +134,14 @@ const Admin = () => {
                               {message.phone}
                             </div>
                           ) : (
-                            <span className="text-gray-400">Not provided</span>
+                            <span className="text-gray-400">{t('not_provided')}</span>
                           )}
                         </TableCell>
                         <TableCell>
                           {message.subject ? (
                             <Badge variant="outline">{message.subject}</Badge>
                           ) : (
-                            <span className="text-gray-400">No subject</span>
+                            <span className="text-gray-400">{t('no_subject')}</span>
                           )}
                         </TableCell>
                         <TableCell>
@@ -154,12 +159,12 @@ const Admin = () => {
                             {expandedMessage === message.id ? (
                               <>
                                 <EyeOff className="w-4 h-4 mr-2" />
-                                Hide
+                                {t('hide')}
                               </>
                             ) : (
                               <>
                                 <Eye className="w-4 h-4 mr-2" />
-                                View
+                                {t('view')}
                               </>
                             )}
                           </Button>
@@ -169,7 +174,7 @@ const Admin = () => {
                         <TableRow>
                           <TableCell colSpan={6} className="bg-gray-50">
                             <div className="p-4">
-                              <h4 className="font-semibold mb-2">Message:</h4>
+                              <h4 className="font-semibold mb-2">{t('contact_message')}:</h4>
                               <div className="bg-white p-3 rounded border">
                                 <p className="whitespace-pre-wrap">{message.message}</p>
                               </div>

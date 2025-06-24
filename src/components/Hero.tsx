@@ -2,8 +2,12 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Scroll, Heart, MessageCircle } from 'lucide-react';
+import { useLanguage } from '@/contexts/LanguageContext';
+import LanguageToggle from './LanguageToggle';
 
 const Hero = () => {
+  const { t } = useLanguage();
+
   const scrollToSection = (sectionId: string) => {
     const element = document.getElementById(sectionId);
     element?.scrollIntoView({ behavior: 'smooth' });
@@ -11,6 +15,8 @@ const Hero = () => {
 
   return (
     <div className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <LanguageToggle />
+      
       {/* Background Image */}
       <div 
         className="absolute inset-0 bg-cover bg-center bg-no-repeat"
@@ -23,16 +29,16 @@ const Hero = () => {
       <div className="relative z-10 text-center text-white px-4 max-w-4xl mx-auto">
         <div className="mb-8">
           <h1 className="text-5xl md:text-7xl font-bold mb-4 text-orange-100 drop-shadow-2xl">
-            🕉️ Puskeraswarnath Temple
+            🕉️ {t('hero_title')}
           </h1>
           <div className="text-2xl md:text-3xl mb-6 text-orange-200 font-semibold">
-            पुष्केरश्वरनाथ मंदिर
+            {t('hero_title_hindi')}
           </div>
           <p className="text-xl md:text-2xl mb-8 text-orange-100 max-w-3xl mx-auto leading-relaxed">
-            Dedicated to Lord Shiva • Established June 5, 2025
+            {t('hero_subtitle')}
           </p>
           <p className="text-lg md:text-xl text-orange-200 max-w-2xl mx-auto mb-12">
-            A sacred sanctuary where devotion meets divinity, nestled in the embrace of nature's grandeur
+            {t('hero_description')}
           </p>
         </div>
         
@@ -45,7 +51,7 @@ const Hero = () => {
             onClick={() => scrollToSection('donations')}
           >
             <Heart className="mr-3 h-6 w-6" />
-            DONATE NOW
+            {t('hero_donate')}
           </Button>
           
           {/* Secondary Action Buttons */}
@@ -57,7 +63,7 @@ const Hero = () => {
               onClick={() => scrollToSection('contact')}
             >
               <MessageCircle className="mr-2 h-5 w-5" />
-              Send Message
+              {t('hero_contact')}
             </Button>
             <Button 
               size="lg" 
@@ -66,7 +72,7 @@ const Hero = () => {
               onClick={() => scrollToSection('about')}
             >
               <Scroll className="mr-2 h-5 w-5" />
-              Learn More
+              {t('hero_learn')}
             </Button>
           </div>
         </div>

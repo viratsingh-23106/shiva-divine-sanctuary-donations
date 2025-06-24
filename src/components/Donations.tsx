@@ -9,9 +9,11 @@ import { Textarea } from '@/components/ui/textarea';
 import { Heart, Building, BookOpen, Stethoscope, Users, ArrowLeft } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 import QRDonation from './QRDonation';
 
 const Donations = () => {
+  const { t } = useLanguage();
   const [donationForm, setDonationForm] = useState({
     name: '',
     email: '',
@@ -28,29 +30,29 @@ const Donations = () => {
   const donationCategories = [
     {
       id: 'temple_maintenance',
-      title: 'Temple Maintenance',
-      description: 'Support daily upkeep, repairs, and maintenance of the sacred temple premises',
+      title: t('temple_maintenance'),
+      description: t('temple_maintenance_desc'),
       icon: Building,
       color: 'orange'
     },
     {
       id: 'food_distribution',
-      title: 'Annadanam (Food Distribution)',
-      description: 'Provide free meals to devotees and those in need - the highest form of service',
+      title: t('food_distribution'),
+      description: t('food_distribution_desc'),
       icon: Users,
       color: 'green'
     },
     {
       id: 'education',
-      title: 'Education & Learning',
-      description: 'Support educational programs, Sanskrit learning, and spiritual knowledge sharing',
+      title: t('education'),
+      description: t('education_desc'),
       icon: BookOpen,
       color: 'blue'
     },
     {
       id: 'medical_aid',
-      title: 'Medical & Healthcare',
-      description: 'Provide medical assistance and healthcare support to the community',
+      title: t('medical_aid'),
+      description: t('medical_aid_desc'),
       icon: Stethoscope,
       color: 'red'
     }
@@ -95,7 +97,7 @@ const Donations = () => {
 
       toast({
         title: "Donation Request Submitted Successfully!",
-        description: "Please proceed with the payment using the QR code below.",
+        description: t('donation_saved'),
       });
 
       // Show QR code and store donation ID
@@ -134,11 +136,11 @@ const Donations = () => {
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-8">
             <h2 className="text-4xl md:text-5xl font-bold text-orange-800 mb-4">
-              Complete Your Donation
+              {t('complete_donation')}
             </h2>
             <div className="w-24 h-1 bg-orange-600 mx-auto mb-6"></div>
             <p className="text-xl text-gray-700">
-              Your donation request has been saved. Please complete the payment using the QR code below.
+              {t('donation_saved')}
             </p>
           </div>
 
@@ -153,15 +155,15 @@ const Donations = () => {
               className="border-orange-300 text-orange-700 hover:bg-orange-100"
             >
               <ArrowLeft className="mr-2 h-4 w-4" />
-              Make Another Donation
+              {t('make_another')}
             </Button>
           </div>
 
           <div className="mt-8 p-4 bg-green-100 rounded-lg border border-green-200">
             <p className="text-center text-green-800">
-              <strong>Thank you for your generous donation!</strong><br />
+              <strong>{t('thank_you_donation')}</strong><br />
               Donation ID: {submittedDonationId}<br />
-              After completing the payment, please keep the transaction reference for your records.
+              {t('transaction_note')}
             </p>
           </div>
         </div>
@@ -174,11 +176,11 @@ const Donations = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-orange-800 mb-4">
-            Support Our Sacred Mission
+            {t('donations_title')}
           </h2>
           <div className="w-24 h-1 bg-orange-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Your generous donations help us serve the community and maintain this sacred space for future generations
+            {t('donations_description')}
           </p>
         </div>
 
@@ -190,7 +192,7 @@ const Donations = () => {
         <div className="grid lg:grid-cols-2 gap-12">
           {/* Donation Categories */}
           <div>
-            <h3 className="text-2xl font-bold text-orange-800 mb-6">Choose Your Seva (Service)</h3>
+            <h3 className="text-2xl font-bold text-orange-800 mb-6">{t('donation_categories')}</h3>
             <div className="space-y-4">
               {donationCategories.map((category) => {
                 const IconComponent = category.icon;
@@ -231,30 +233,30 @@ const Donations = () => {
               <CardHeader className="bg-orange-600 text-white rounded-t-lg">
                 <CardTitle className="text-2xl flex items-center">
                   <Heart className="mr-2 h-6 w-6" />
-                  Make a Donation
+                  {t('make_donation')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="name">Full Name *</Label>
+                    <Label htmlFor="name">{t('full_name')} {t('required')}</Label>
                     <Input
                       id="name"
                       value={donationForm.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="Enter your full name"
+                      placeholder={t('enter_name')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="email">Email *</Label>
+                    <Label htmlFor="email">{t('email')} {t('required')}</Label>
                     <Input
                       id="email"
                       type="email"
                       value={donationForm.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="Enter your email"
+                      placeholder={t('enter_email')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
@@ -263,24 +265,24 @@ const Donations = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="phone">Phone Number</Label>
+                    <Label htmlFor="phone">{t('phone')}</Label>
                     <Input
                       id="phone"
                       value={donationForm.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      placeholder="Enter your phone number"
+                      placeholder={t('enter_phone')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="amount">Donation Amount (₹) *</Label>
+                    <Label htmlFor="amount">{t('amount')} {t('required')}</Label>
                     <Input
                       id="amount"
                       type="number"
                       value={donationForm.amount}
                       onChange={(e) => handleInputChange('amount', e.target.value)}
-                      placeholder="Enter amount in rupees"
+                      placeholder={t('enter_amount')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
@@ -288,14 +290,14 @@ const Donations = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="category">Donation Category *</Label>
+                  <Label htmlFor="category">{t('category')} {t('required')}</Label>
                   <Select 
                     value={donationForm.category} 
                     onValueChange={(value) => handleInputChange('category', value)}
                     disabled={isSubmitting}
                   >
                     <SelectTrigger className="mt-1">
-                      <SelectValue placeholder="Select donation category" />
+                      <SelectValue placeholder={t('select_category')} />
                     </SelectTrigger>
                     <SelectContent>
                       {donationCategories.map((category) => (
@@ -308,12 +310,12 @@ const Donations = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="message">Message (Optional)</Label>
+                  <Label htmlFor="message">{t('message_optional')}</Label>
                   <Textarea
                     id="message"
                     value={donationForm.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
-                    placeholder="Share your thoughts or prayers..."
+                    placeholder={t('share_thoughts')}
                     className="mt-1"
                     rows={3}
                     disabled={isSubmitting}
@@ -327,11 +329,11 @@ const Donations = () => {
                   disabled={isSubmitting}
                 >
                   <Heart className="mr-2 h-5 w-5" />
-                  {isSubmitting ? 'Processing...' : 'Submit Donation Request'}
+                  {isSubmitting ? t('processing') : t('submit_donation')}
                 </Button>
 
                 <p className="text-sm text-gray-600 text-center">
-                  After submitting, you'll see the QR code to complete your payment
+                  {t('donation_form_note')}
                 </p>
               </CardContent>
             </Card>

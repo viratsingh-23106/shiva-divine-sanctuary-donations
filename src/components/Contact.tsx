@@ -8,8 +8,10 @@ import { Textarea } from '@/components/ui/textarea';
 import { MessageCircle, MapPin, Phone, Mail, Clock } from 'lucide-react';
 import { useToast } from '@/hooks/use-toast';
 import { supabase } from '@/integrations/supabase/client';
+import { useLanguage } from '@/contexts/LanguageContext';
 
 const Contact = () => {
+  const { t } = useLanguage();
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -88,11 +90,11 @@ const Contact = () => {
       <div className="max-w-6xl mx-auto">
         <div className="text-center mb-16">
           <h2 className="text-4xl md:text-5xl font-bold text-blue-800 mb-4">
-            Connect With Us
+            {t('contact_title')}
           </h2>
           <div className="w-24 h-1 bg-blue-600 mx-auto mb-6"></div>
           <p className="text-xl text-gray-700 max-w-3xl mx-auto">
-            Have questions, need guidance, or want to know more about our temple activities? We're here to help.
+            {t('contact_description')}
           </p>
         </div>
 
@@ -101,7 +103,7 @@ const Contact = () => {
           <div className="space-y-8">
             <Card className="border-blue-200 shadow-lg">
               <CardHeader className="bg-blue-600 text-white rounded-t-lg">
-                <CardTitle className="text-2xl">Temple Information</CardTitle>
+                <CardTitle className="text-2xl">{t('temple_info')}</CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 <div className="flex items-start space-x-4">
@@ -109,12 +111,9 @@ const Contact = () => {
                     <MapPin className="h-6 w-6 text-blue-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 mb-1">Address</h4>
-                    <p className="text-gray-600">
-                      Puskeraswarnath Temple<br />
-                      Sacred Hills, Divine Valley<br />
-                      Near Mountain Springs<br />
-                      PIN: 123456
+                    <h4 className="font-bold text-gray-800 mb-1">{t('address')}</h4>
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {t('temple_address')}
                     </p>
                   </div>
                 </div>
@@ -124,7 +123,7 @@ const Contact = () => {
                     <Phone className="h-6 w-6 text-green-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 mb-1">Phone</h4>
+                    <h4 className="font-bold text-gray-800 mb-1">{t('phone')}</h4>
                     <p className="text-gray-600">
                       +91 12345 67890<br />
                       +91 98765 43210
@@ -137,7 +136,7 @@ const Contact = () => {
                     <Mail className="h-6 w-6 text-orange-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 mb-1">Email</h4>
+                    <h4 className="font-bold text-gray-800 mb-1">{t('email')}</h4>
                     <p className="text-gray-600">
                       info@puskeraswarnath.org<br />
                       seva@puskeraswarnath.org
@@ -150,11 +149,9 @@ const Contact = () => {
                     <Clock className="h-6 w-6 text-purple-600" />
                   </div>
                   <div>
-                    <h4 className="font-bold text-gray-800 mb-1">Temple Timings</h4>
-                    <p className="text-gray-600">
-                      Morning: 5:00 AM - 12:00 PM<br />
-                      Evening: 4:00 PM - 9:00 PM<br />
-                      Special ceremonies as announced
+                    <h4 className="font-bold text-gray-800 mb-1">{t('temple_timings')}</h4>
+                    <p className="text-gray-600 whitespace-pre-line">
+                      {t('temple_schedule')}
                     </p>
                   </div>
                 </div>
@@ -162,13 +159,13 @@ const Contact = () => {
             </Card>
 
             <div className="bg-gradient-to-r from-orange-600 to-red-600 rounded-2xl p-8 text-white">
-              <h3 className="text-2xl font-bold mb-4">Daily Activities</h3>
+              <h3 className="text-2xl font-bold mb-4">{t('daily_activities')}</h3>
               <ul className="space-y-2">
-                <li>• Morning Aarti: 6:00 AM</li>
-                <li>• Abhishek: 8:00 AM - 11:00 AM</li>
-                <li>• Afternoon Prayers: 12:00 PM</li>
-                <li>• Evening Aarti: 7:00 PM</li>
-                <li>• Night Prayer: 8:30 PM</li>
+                <li>{t('morning_aarti')}</li>
+                <li>{t('abhishek')}</li>
+                <li>{t('afternoon_prayers')}</li>
+                <li>{t('evening_aarti')}</li>
+                <li>{t('night_prayer')}</li>
               </ul>
             </div>
           </div>
@@ -179,30 +176,30 @@ const Contact = () => {
               <CardHeader className="bg-blue-600 text-white rounded-t-lg">
                 <CardTitle className="text-2xl flex items-center">
                   <MessageCircle className="mr-2 h-6 w-6" />
-                  Send us a Message
+                  {t('send_message')}
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-6 space-y-6">
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="contact-name">Full Name *</Label>
+                    <Label htmlFor="contact-name">{t('full_name')} {t('required')}</Label>
                     <Input
                       id="contact-name"
                       value={contactForm.name}
                       onChange={(e) => handleInputChange('name', e.target.value)}
-                      placeholder="Enter your full name"
+                      placeholder={t('enter_name')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="contact-email">Email *</Label>
+                    <Label htmlFor="contact-email">{t('email')} {t('required')}</Label>
                     <Input
                       id="contact-email"
                       type="email"
                       value={contactForm.email}
                       onChange={(e) => handleInputChange('email', e.target.value)}
-                      placeholder="Enter your email"
+                      placeholder={t('enter_email')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
@@ -211,23 +208,23 @@ const Contact = () => {
 
                 <div className="grid md:grid-cols-2 gap-4">
                   <div>
-                    <Label htmlFor="contact-phone">Phone Number</Label>
+                    <Label htmlFor="contact-phone">{t('phone')}</Label>
                     <Input
                       id="contact-phone"
                       value={contactForm.phone}
                       onChange={(e) => handleInputChange('phone', e.target.value)}
-                      placeholder="Enter your phone number"
+                      placeholder={t('enter_phone')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
                   </div>
                   <div>
-                    <Label htmlFor="contact-subject">Subject</Label>
+                    <Label htmlFor="contact-subject">{t('subject')}</Label>
                     <Input
                       id="contact-subject"
                       value={contactForm.subject}
                       onChange={(e) => handleInputChange('subject', e.target.value)}
-                      placeholder="Subject of your message"
+                      placeholder={t('subject_placeholder')}
                       className="mt-1"
                       disabled={isSubmitting}
                     />
@@ -235,12 +232,12 @@ const Contact = () => {
                 </div>
 
                 <div>
-                  <Label htmlFor="contact-message">Message *</Label>
+                  <Label htmlFor="contact-message">{t('contact_message')} {t('required')}</Label>
                   <Textarea
                     id="contact-message"
                     value={contactForm.message}
                     onChange={(e) => handleInputChange('message', e.target.value)}
-                    placeholder="Write your message, question, or query here..."
+                    placeholder={t('contact_message_placeholder')}
                     className="mt-1"
                     rows={5}
                     disabled={isSubmitting}
@@ -254,11 +251,11 @@ const Contact = () => {
                   disabled={isSubmitting}
                 >
                   <MessageCircle className="mr-2 h-5 w-5" />
-                  {isSubmitting ? 'Sending...' : 'Send Message'}
+                  {isSubmitting ? t('sending') : t('send_message')}
                 </Button>
 
                 <p className="text-sm text-gray-600 text-center">
-                  Your message will be saved and we'll respond within 24 hours
+                  {t('contact_form_note')}
                 </p>
               </CardContent>
             </Card>
